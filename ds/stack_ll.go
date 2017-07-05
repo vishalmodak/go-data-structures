@@ -18,8 +18,8 @@ func (s *StackLL) Print() {
 	fmt.Println()
 }
 
-func (s *StackLL) Top() *Node {
-	return s.top
+func (s *StackLL) Top() interface{} {
+	return s.top.data
 }
 
 func (s *StackLL) IsEmpty() bool {
@@ -45,4 +45,15 @@ func (s *StackLL) Pop() interface{} {
 	s.top = s.top.next
 	s.size--
 	return data
+}
+
+func (s *StackLL) Contains(value interface{}) bool {
+	current := s.top
+	for current != nil {
+		if current.data == value {
+			return true
+		}
+		current = current.next
+	}
+	return false
 }

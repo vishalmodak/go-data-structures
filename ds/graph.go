@@ -56,10 +56,6 @@ func (g *Graph) AddEdge(srcValue interface{}, dstValue interface{}) bool {
 		srcNode.neighbors = make([]*GraphNode, len(srcNode.neighbors))
 	}
 	srcNode.neighbors = append(srcNode.neighbors, dstNode)
-	if !dstNode.hasNeighbors() {
-		dstNode.neighbors = make([]*GraphNode, len(dstNode.neighbors))
-	}
-	dstNode.neighbors = append(dstNode.neighbors, srcNode)
 	return true
 }
 
@@ -67,8 +63,9 @@ func DFS(startNode *GraphNode) {
 	stack := new(StackLL)
 	stack.Push(startNode)
 	for !stack.IsEmpty() {
+		//fmt.Println("===============")
 		currentNode := stack.Pop().(*GraphNode)
-		fmt.Printf("Current node: %v\n", currentNode)
+		//fmt.Printf("Current node: %v\n", currentNode.data)
 		if !currentNode.visited {
 			for i := 0; currentNode.hasNeighbors() && i < len(currentNode.neighbors); i++ {
 				neighbor := currentNode.neighbors[i]
@@ -99,4 +96,30 @@ func BFS(startNode *GraphNode) {
 			queue.Enqueue(neighbor)
 		}
 	}
+}
+
+func HasCycle(startNode *GraphNode) bool {
+	visitedList := new(LinkedList)
+	stack := new(StackLL)
+	stack.Push(startNode)
+	visitedList.Insert(startNode)
+	for !stack.IsEmpty() {
+		currentNode := stack.Pop().(*GraphNode)
+		fmt.Printf("Current: %s\n", currentNode.data)
+		fmt.Printf("VisitedList: %s\n", visitedList.String())
+		if !currentNode.visited {
+			for i := 0; currentNode.hasNeighbors() && i < len(currentNode.neighbors); i++ {
+				neighbor := currentNode.neighbors[i]
+				fmt.Printf("Neighbor: %v\n", neighbor)
+				if visitedList.Contains(neighbor) && neighbor.visited {
+					return true
+				}
+				stack.Push(neighbor)
+			}
+			currentNode.visited = true
+			visitedList.Insert(currentNode)
+			//fmt.Printf("Marking node: %v\n", currentNode)
+		}
+	}
+	return false
 }

@@ -44,3 +44,26 @@ func TestStackLL_IsEmpty(t *testing.T) {
 		t.Errorf("Stack should be empty, got %v, expected %v", stack.IsEmpty(), true)
 	}
 }
+
+func TestStackContainsPositive(t *testing.T) {
+	stack := new(StackLL)
+	stack.Push("A")
+	stack.Push("B")
+	stack.Push("C")
+
+	result := stack.Contains("C")
+	if !result {
+		t.Errorf("Contains() result incorrect, got %s, expected %s", result, true)
+	}
+}
+
+func TestStackContainsNeative(t *testing.T) {
+	stack := new(StackLL)
+	stack.Push("A")
+	stack.Push("B")
+
+	result := stack.Contains("C")
+	if result {
+		t.Errorf("Contains() result incorrect, got %s, expected %s", result, false)
+	}
+}

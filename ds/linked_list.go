@@ -1,6 +1,9 @@
 package ds
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type LinkedList struct {
 	head    *Node
@@ -34,11 +37,23 @@ func (l *LinkedList) Insert(value interface{}) {
 	l.size++
 }
 
-func (l *LinkedList) Print() {
+func (l *LinkedList) String() string {
+	var listString string
 	current := l.head
 	for current != nil {
-		fmt.Printf("%v, ", current.data)
+		listString += fmt.Sprintf("%v,", current.data)
 		current = current.next
 	}
-	fmt.Println()
+	return strings.TrimSuffix(listString, ",")
+}
+
+func (l *LinkedList) Contains(value interface{}) bool {
+	current := l.head
+	for current != nil {
+		if current.data == value {
+			return true
+		}
+		current = current.next
+	}
+	return false
 }

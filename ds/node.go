@@ -8,3 +8,7 @@ type Node struct {
 func (n *Node) GetData() interface{} {
 	return n.data
 }
+
+func (n *Node) Next() *Node {
+	return n.next
+}
